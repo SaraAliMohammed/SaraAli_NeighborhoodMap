@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Sara Ali - Neighborhood Map</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="css/style.css" rel="stylesheet"/>
+</head>
+<body>
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <nav id="spy">
+                <ul class="sidebar-nav nav">
+                    <li class="sidebar-brand">
+                        <a href="#home" class="home"><span class="fa fa-home solo">Neighborhood Map</span></a>
+                    </li>
+                    <li>
+                        <input type="search" data-bind="textInput: searchPlace, valueUpdate: 'afterkeydown'" id="searchBox" placeholder="Search Locations..."/>
+                    </li>
+                    <li>
+                        <ul id="placesList" data-bind="foreach: myPlacesFilter">
+                            <li data-bind="click: $parent.populateAndBounceMarker">
+                                <a href="#">
+                                    <span class="fa fa-anchor solo" data-bind="text: title"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Page content -->
+        <div id="page-content-wrapper">
+           <div class="content-header">
+                <h1 id="home">
+                    <a id="menu-toggle" href="#" class="glyphicon glyphicon-align-justify btn-menu toggle">
+                        <i class="fa fa-bars"></i>
+                    </a>
+                    Neighborhood Map
+                </h1>
+            </div>
+            <div class="page-content inset" data-spy="scroll" data-target="#spy">
+                <div class="row">
+                    <div id="map"></div>
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+    <script src="js/lib/jquery-1.12.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/lib/knockout-3.2.0.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+
+        /*Menu-toggle*/
+        $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("active");
+        });
+
+        /*Scroll Spy*/
+        $('body').scrollspy({ target: '#spy', offset: 80 });
+
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?libraries=geometry&v=3&key=AIzaSyAxFAdA86nV76kdl9i7puxd778ppXToAek&callback=showNeighborhoodMap">
+    </script>
+</body>
+</html>

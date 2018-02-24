@@ -1,9 +1,9 @@
 var myPlaces = [
     {
         title: 'Discovery Docks Apartments',
-        location: {lat: 51.501409, lng: -0.018823},
+        location: { lat: 51.501409, lng: -0.018823 },
         type: 'Living Quarters'
-    }, 
+    },
     {
         title: 'Nandos Restaurant',
         location: { lat: 51.5023146, lng: -0.0187593 },
@@ -49,7 +49,7 @@ var myPlaces = [
         location: { lat: 51.505233, lng: -0.021716 },
         type: 'Restaurant'
     }
-]
+];
 
 // Create a styles array to use with the map.
 var styles = [
@@ -123,7 +123,7 @@ var styles = [
 window.gm_authFailure = function () {
     $("#map").html("<p>Google maps failed to load!</p><p>Check Api Key</p>");
     alert('Google maps failed to load!');
-}
+};
 
 var map;
 
@@ -136,14 +136,14 @@ var neighborhoodMapModel = function () {
         if (infoWindow.marker != marker) {
             infoWindow.marker = marker;
             infoWindow.setContent('');
-            
+
             // Get Street View
             var streetViewService = new google.maps.StreetViewService();
             var radius = 50;
             // In case the status is OK, which means the pano was found, compute the
             // position of the streetview image, then calculate the heading, then get a
             // panorama from that and set the options
-            function getStreetView(data, status) {
+            self.getStreetView = function (data, status) {
                 if (status == google.maps.StreetViewStatus.OK) {
                     var nearStreetViewLocation = data.location.latLng;
                     var heading = google.maps.geometry.spherical.computeHeading(
@@ -165,7 +165,7 @@ var neighborhoodMapModel = function () {
             }
             // Use streetview service to get the closest streetview image within
             // 50 meters of the markers position
-            streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
+            streetViewService.getPanoramaByLocation(marker.position, radius, self.getStreetView);
 
             // Foursquare API Client
             clientID = "HDFWJMDVMRDGQPU5E2P2U0LJGKJAP1HNV4AU1PRWDROUKS52";
@@ -193,7 +193,7 @@ var neighborhoodMapModel = function () {
                     '<p>zip : ' + self.zip + '</p>' +
                     '<p>country : ' + self.country +
                     '</p>' + '</div>' + '</div>';
-                
+
                 $("#infoWindowData").append(self.htmlContent + self.htmlContentFoursquare);
             }).fail(function () {
                 // alert error message 
@@ -221,14 +221,14 @@ var neighborhoodMapModel = function () {
         }).bind(this), 1400);
     };
 
-    this.makeMarkerIcon = function(markerColor) {
+    this.makeMarkerIcon = function (markerColor) {
         var markerImage = new google.maps.MarkerImage(
-          'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
+          'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|' + markerColor +
           '|40|_|%E2%80%A2',
           new google.maps.Size(21, 34),
           new google.maps.Point(0, 0),
           new google.maps.Point(10, 34),
-          new google.maps.Size(21,34));
+          new google.maps.Size(21, 34));
         return markerImage;
     };
 
@@ -273,12 +273,8 @@ var neighborhoodMapModel = function () {
             this.placesMarkerList.push(this.marker);
             this.marker.addListener('click', self.populateAndBounceMarker);
             this.bounds.extend(this.marker.position);
-            this.marker.addListener('mouseover', function () {
-                this.setIcon(highlightedIcon);
-            });
-            this.marker.addListener('mouseout', function () {
-                this.setIcon(defaultIcon);
-            });
+            this.marker.addListener('mouseover', function () { this.setIcon(highlightedIcon) });
+            this.marker.addListener('mouseout', function () { this.setIcon(defaultIcon) });
         }
 
         map.fitBounds(this.bounds);
@@ -294,10 +290,10 @@ var neighborhoodMapModel = function () {
                 Marker.setVisible(true);
             } else
                 Marker.setVisible(false);
-        });     
+        });
         return places;
     });
-}
+};
 
 function showNeighborhoodMap() {
     ko.applyBindings(new neighborhoodMapModel());

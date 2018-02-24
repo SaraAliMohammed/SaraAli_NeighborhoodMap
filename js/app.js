@@ -162,7 +162,7 @@ var neighborhoodMapModel = function () {
                     self.streetViewContent = '<div>' + marker.title + '</div>' +
                       '<div>No Street View Found</div>';
                 }
-            }
+            };
             // Use streetview service to get the closest streetview image within
             // 50 meters of the markers position
             streetViewService.getPanoramaByLocation(marker.position, radius, self.getStreetView);
@@ -232,6 +232,16 @@ var neighborhoodMapModel = function () {
         return markerImage;
     };
 
+    this.changeMarkerHighlightedIcon = function () {
+        var highlightedIcon = self.makeMarkerIcon('ffff24');
+        this.setIcon(highlightedIcon);
+    };
+
+    this.changeMarkerDefaultIcon = function () {
+        var Default = self.makeMarkerIcon('f75850');
+        this.setIcon(Default);
+    };
+
     this.initMap = function () {
         var mapCanvas = document.getElementById('map');
         var mapOptions = {
@@ -249,9 +259,6 @@ var neighborhoodMapModel = function () {
 
         // Style the markers a bit. This will be my listing marker icon.
         var defaultIcon = self.makeMarkerIcon('f75850');
-        // Create a "highlighted location" marker color for when the user
-        // mouses over the marker.
-        var highlightedIcon = self.makeMarkerIcon('ffff24');
 
         //Creating list places with markers
         for (var i = 0 ; i < length ; i++) {
@@ -273,8 +280,8 @@ var neighborhoodMapModel = function () {
             this.placesMarkerList.push(this.marker);
             this.marker.addListener('click', self.populateAndBounceMarker);
             this.bounds.extend(this.marker.position);
-            this.marker.addListener('mouseover', function () { this.setIcon(highlightedIcon) });
-            this.marker.addListener('mouseout', function () { this.setIcon(defaultIcon) });
+            this.marker.addListener('mouseover', self.changeMarkerHighlightedIcon);
+            this.marker.addListener('mouseout', self.changeMarkerDefaultIcon);
         }
 
         map.fitBounds(this.bounds);

@@ -140,6 +140,13 @@
     height: 125px;
 }
 
+.foursquareImage {
+    position: relative;
+    bottom: 2px;
+    width: 70%;
+    left: -12px;
+}
+
 #map {
     min-height: 990px;
 }

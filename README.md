@@ -27,5 +27,5 @@ Google Maps API is used here to show the map and generate the markers etc.
 Foursquare API is used to pull more information on my favorite places and provide a more complete listing when you click on the marker and the infoWindow shows up.
 
 ## How to View This App
-1. Test the app at:  or
+1. Test the app at:  https://saraalimohammed.github.io/SaraAli_NeighborhoodMap/ or
 2. Download the source code from my repo at GitHub: https://github.com/SaraAliMohammed/SaraAli_NeighborhoodMap.git and open /index.html in your browser.

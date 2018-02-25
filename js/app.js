@@ -145,10 +145,10 @@ var neighborhoodMapModel = function () {
             // panorama from that and set the options
             self.getStreetView = function (data, status) {
                 if (status == google.maps.StreetViewStatus.OK) {
-                    var nearStreetViewLocation = data.location.latLng;
+                    var nearStreetViewLocation = data.location.latLng; 
                     var heading = google.maps.geometry.spherical.computeHeading(
                       nearStreetViewLocation, marker.position);
-                    infoWindow.setContent('<div id="infoWindowData"></div><div id="pano"></div>');
+                    //self.streetViewContent = '<div id="pano">hello</div>';
                     var panoramaOptions = {
                         position: nearStreetViewLocation,
                         pov: {
@@ -158,14 +158,8 @@ var neighborhoodMapModel = function () {
                     };
                     var panorama = new google.maps.StreetViewPanorama(
                       document.getElementById('pano'), panoramaOptions);
-                } else {
-                    self.streetViewContent = '<div>' + marker.title + '</div>' +
-                      '<div>No Street View Found</div>';
                 }
             };
-            // Use streetview service to get the closest streetview image within
-            // 50 meters of the markers position
-            streetViewService.getPanoramaByLocation(marker.position, radius, self.getStreetView);
 
             // Foursquare API Client
             clientID = "HDFWJMDVMRDGQPU5E2P2U0LJGKJAP1HNV4AU1PRWDROUKS52";
@@ -192,9 +186,13 @@ var neighborhoodMapModel = function () {
                     '<p>city : ' + self.city + '</p>' +
                     '<p>zip : ' + self.zip + '</p>' +
                     '<p>country : ' + self.country +
-                    '</p>' + '</div>' + '</div>';
+                    '</p>' + '</div>' + '</div><div id="pano">Street View</div>';
 
-                $("#infoWindowData").append(self.htmlContent + self.htmlContentFoursquare);
+                infoWindow.setContent(self.htmlContent + self.htmlContentFoursquare);
+            }).done(function () {
+                // Use streetview service to get the closest streetview image within
+                // 50 meters of the markers position
+                streetViewService.getPanoramaByLocation(marker.position, radius, self.getStreetView);
             }).fail(function () {
                 // alert error message 
                 alert(
@@ -304,4 +302,8 @@ var neighborhoodMapModel = function () {
 
 function showNeighborhoodMap() {
     ko.applyBindings(new neighborhoodMapModel());
+}
+
+function googleMapErrorHandle() {
+    alert("There is an error in google map request");
 }
